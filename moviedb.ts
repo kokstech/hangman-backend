@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 
-const url = process.env.DATABASE_URL;
+const url =
+  "mongodb+srv://KoksTech:Kokica1990@clusterinit.cnediav.mongodb.net/?retryWrites=true&w=majority"; //process.env.DATABASE_URL;
 
 const client = new MongoClient(url, { useNewUrlParser: true });
 
