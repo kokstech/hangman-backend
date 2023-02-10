@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 
 const url = process.env.DATABASE_URL;
 
-const client = new MongoClient(url);
+const client = new MongoClient(url, { useNewUrlParser: true });
 
 const database = client.db("sample_mflix");
 const movies = database.collection("hangmanMovies");
