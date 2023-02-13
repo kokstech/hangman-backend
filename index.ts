@@ -2,8 +2,13 @@ import * as dotenv from "dotenv";
 dotenv.config();
 const express = require("express");
 //const cors = require("cors");
-const { movieArr, addMovie } = require("./moviedb");
+const { movieArr, addMovie, run } = require("./moviedb");
 const app = express();
+
+app.use(function (req, res, next) {
+  run();
+  next();
+});
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

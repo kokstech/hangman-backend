@@ -17,8 +17,8 @@ async function run() {
     );
 
     console.log(movieArr);
-  } finally {
-    //await client.close();
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -30,11 +30,14 @@ async function addMovie(mv) {
     console.log(
       `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
     );
-  } finally {
-    //await client.close();
+  } catch (error) {
+    console.error(error);
+    // Expected output: ReferenceError: nonExistentFunction is not defined
+    // (Note: the exact output may be browser-dependent)
   }
 }
 
-run();
+//run();
+exports.run = run;
 exports.movieArr = movieArr;
 exports.addMovie = addMovie;
