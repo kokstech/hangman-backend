@@ -5,15 +5,6 @@ const express = require("express");
 const { movieArr, addMovie, run } = require("./moviedb");
 const app = express();
 
-app.use((req, res, next) => {
-  if (movieArr.length === 0) {
-    run();
-    next();
-  } else {
-    next();
-  }
-});
-
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -31,7 +22,7 @@ app.get("/", (req, res) => {
   res.send("hello from backend");
 });
 
-app.get("/api", (req, res) => {
+app.get("/api", rerun, (req, res) => {
   res.status(200);
   res.json(movieArr);
 });
@@ -40,6 +31,15 @@ app.post("/add", (req, res) => {
   addMovie(req.body.movie);
   res.end(`you add movie ${req.body.movie}`);
 });
+
+function rerun(req, res, next) {
+  if (movieArr.length === 0) {
+    run();
+    next();
+  } else {
+    next();
+  }
+}
 
 app.listen(process.env.PORT, () => {
   console.log(`default port is ${process.env.PORT}!!!!`);

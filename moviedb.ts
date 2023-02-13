@@ -1,7 +1,6 @@
 const { MongoClient } = require("mongodb");
 
 const url = process.env.DATABASE_URL;
-
 const client = new MongoClient(url, { useNewUrlParser: true });
 
 const database = client.db("sample_mflix");
@@ -23,12 +22,9 @@ async function run() {
 
 async function addMovie(mv) {
   try {
-    // const filter = { title: "movies" };
-    // const updateArr = { $push: { moviearray: "kita" } };
-    const result = await movies.updateOne(
-      { title: "movies" },
-      { $push: { moviearray: mv } }
-    );
+    const filter = { title: "movies" };
+    const updateArr = { $push: { moviearray: mv } };
+    const result = await movies.updateOne(filter, updateArr);
     console.log(
       `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
     );
