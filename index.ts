@@ -5,9 +5,13 @@ const express = require("express");
 const { movieArr, addMovie, run } = require("./moviedb");
 const app = express();
 
-app.use(function (req, res, next) {
-  run();
-  next();
+app.use((req, res, next) => {
+  if (movieArr.length === 0) {
+    run();
+    next();
+  } else {
+    next();
+  }
 });
 
 app.use(function (req, res, next) {

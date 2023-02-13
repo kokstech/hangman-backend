@@ -15,7 +15,6 @@ async function run() {
     movie.moviearray.forEach((element) =>
       movieArr.push({ title: element.toLowerCase() })
     );
-
     console.log(movieArr);
   } catch (error) {
     console.error(error);
@@ -32,12 +31,10 @@ async function addMovie(mv) {
     );
   } catch (error) {
     console.error(error);
-    // Expected output: ReferenceError: nonExistentFunction is not defined
-    // (Note: the exact output may be browser-dependent)
   }
 }
 
-//run();
+run();
 exports.run = run;
 exports.movieArr = movieArr;
 exports.addMovie = addMovie;
