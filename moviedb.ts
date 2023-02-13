@@ -27,7 +27,7 @@ async function addMovie(mv) {
     // const updateArr = { $push: { moviearray: "kita" } };
     const result = await movies.updateOne(
       { title: "movies" },
-      { $push: { moviearray: "kita" } }
+      { $push: { moviearray: mv } }
     );
     console.log(
       `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
