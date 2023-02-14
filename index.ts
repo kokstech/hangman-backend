@@ -1,8 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 const express = require("express");
-//const cors = require("cors");
-const { movieArr, addMovie, run } = require("./moviedb");
+const { movieArr, addMovie, run, login, addNewUser } = require("./moviedb");
 const app = express();
 
 app.use(function (req, res, next) {
@@ -13,7 +12,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-//app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -28,9 +27,12 @@ app.get("/api", rerun, (req, res) => {
 });
 
 app.post("/add", (req, res) => {
-  addMovie(req.body.movie);
-  res.end(`you add movie ${req.body.movie}`);
+  addMovie(req.body.title);
+  res.end(`you add movie ${req.body.title}`);
 });
+
+app.post("/login", login);
+app.post("/signup", addNewUser);
 
 function rerun(req, res, next) {
   if (movieArr.length === 0) {
