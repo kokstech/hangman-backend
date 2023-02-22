@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 
 app.get("/api", rerun, (req, res) => {
   res.status(200);
-  res.json(movieArr);
+  res.send("movies are awesome")
 });
 
 app.post("/add", (req, res) => {
