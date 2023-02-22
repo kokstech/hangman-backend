@@ -8,14 +8,18 @@ const database = client.db("hangman");
 const movieCollection = database.collection("movies");
 const userCollection = database.collection("users");
 
-const movieArr = [];
+interface Movies {
+  title: string;
+}
+
+const movieArr: Movies[] = [];
 
 async function run() {
   try {
     await client.connect();
 
     const findResult = await movieCollection.find({}).toArray();
-    findResult.forEach((element) =>
+    findResult.forEach((element: Movies) =>
       movieArr.push({ title: element.title.toLowerCase() })
     );
     console.log(movieArr);

@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 const express = require("express");
-const { movieArr, addMovie, run, login, addNewUser } = require("./moviedb");
+const { movieArr, addMovie, run, login, addNewUser } = require("./hangman");
 const app = express();
 
 app.use(function (req, res, next) {
@@ -22,15 +22,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api", rerun, (req, res) => {
-  // res.status(200);
-  // res.json(movieArr);
-  if (req.hostname === "localhost" || req.hostname === "render.com") {
-    res.status(200);
-    res.json(movieArr);
-  } else {
-    req.status(404);
-    res.send("not allowed");
-  }
+  res.status(200);
+  res.json(movieArr);
 });
 
 app.post("/add", (req, res) => {
