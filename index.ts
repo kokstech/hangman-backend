@@ -22,16 +22,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api", rerun, (req, res) => {
-  if (
-    req.hostname === "localhost" ||
-    req.hostname === "https://hangman-racg.onrender.com/"
-  ) {
-    res.status(200);
-    res.json(movieArr);
-  } else {
-    req.status(404);
-    res.send("not allowed");
-  }
+  res.status(200);
+  console.log(req.hostname);
+  res.json(movieArr);
+  // if (
+  //   req.hostname === "localhost" ||
+  //   req.hostname === "https://hangman-racg.onrender.com/"
+  // ) {
+  //   res.status(200);
+  //   res.json(movieArr);
+  // } else {
+  //   req.status(404);
+  //   res.send("not allowed");
+  // }
 });
 
 app.post("/add", (req, res) => {
