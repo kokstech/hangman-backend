@@ -1,7 +1,13 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 const express = require("express");
-const { movieArr, addMovie, run, login, addNewUser } = require("./hangman");
+const {
+  movieArr,
+  addMovie,
+  getMovies,
+  login,
+  addNewUser,
+} = require("./hangman");
 const app = express();
 
 app.use(function (req, res, next) {
@@ -36,7 +42,7 @@ app.post("/signup", addNewUser);
 
 function rerun(req, res, next) {
   if (movieArr.length === 0) {
-    run();
+    getMovies();
     next();
   } else {
     next();

@@ -14,10 +14,8 @@ interface Movies {
 
 const movieArr: Movies[] = [];
 
-async function run() {
+async function getMovies() {
   try {
-    await client.connect();
-
     const findResult = await movieCollection.find({}).toArray();
     findResult.forEach((element: Movies) =>
       movieArr.push({ title: element.title.toLowerCase() })
@@ -30,7 +28,6 @@ async function run() {
 
 async function addMovie(mv) {
   try {
-    await client.connect();
     movieCollection.insertOne({ title: mv });
   } catch (error) {
     console.error(error);
@@ -39,7 +36,6 @@ async function addMovie(mv) {
 
 async function login(req, res) {
   try {
-    await client.connect();
     const user = await userCollection.findOne({ username: req.body.username });
 
     if (!user) {
@@ -64,26 +60,19 @@ async function login(req, res) {
 
 async function addNewUser(req, res) {
   try {
-    await client.connect();
     const checkUsername = await userCollection.findOne({
       username: req.body.username,
     });
 
     if (checkUsername) {
       res.status(400);
-      res.send("username is taken");
-      return;
+      return res.send("username is taken");
     }
     if (req.body.username === null || req.body.password === null) {
       res.status(400);
-      res.send("you cannot leave fields empty");
-      return;
+      return res.send("you cannot leave fields empty");
     }
-    if (req.body.username === "" || req.body.password === "") {
-      res.status(400);
-      res.send("you cannot leave fields empty");
-      return;
-    }
+
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = await userCollection.insertOne({
@@ -97,8 +86,8 @@ async function addNewUser(req, res) {
   }
 }
 
-run();
-exports.run = run;
+getMovies();
+exports.getMovies = getMovies;
 exports.movieArr = movieArr;
 exports.addMovie = addMovie;
 exports.login = login;
