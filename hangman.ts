@@ -51,7 +51,7 @@ async function login(req, res) {
       return;
     } else {
       res.status(200);
-      res.json({ isLogin: true });
+      res.json({ isLogin: true, user: user.username });
     }
   } catch (error) {
     console.error(error);
@@ -75,7 +75,7 @@ async function addNewUser(req, res) {
 
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    const user = await userCollection.insertOne({
+    await userCollection.insertOne({
       username: req.body.username,
       password: hashedPassword,
     });
