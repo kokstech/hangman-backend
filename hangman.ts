@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
 const { MongoClient } = require("mongodb");
-
 const url = process.env.DATABASE_URL;
 const client = new MongoClient(url, { useNewUrlParser: true });
-
 const database = client.db("hangman");
 const movieCollection = database.collection("movies");
 const userCollection = database.collection("users");
@@ -46,7 +44,7 @@ async function login(req, res) {
 
     const isValid = await bcrypt.compare(req.body.password, user.password);
     if (!isValid) {
-      res.status(400);
+      res.status(422);
       res.send("Invalid password");
       return;
     } else {
