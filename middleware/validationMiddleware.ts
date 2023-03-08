@@ -3,10 +3,8 @@ const app = express();
 const { validationResult } = require("express-validator");
 
 const validationMiddleware = (req, res, next) => {
-  console.log(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors.array()[0]);
     return res.status(422).json({ errors: errors.array() });
   } else {
     next();
