@@ -8,6 +8,8 @@ const {
   login,
   addNewUser,
 } = require("./hangman");
+const validationMiddleware = require("./middleware/validationMiddleware");
+const { body } = require("express-validator");
 const app = express();
 
 app.use(function (req, res, next) {
@@ -38,7 +40,15 @@ app.post("/add", (req, res) => {
 });
 
 app.post("/login", login);
-app.post("/signup", addNewUser);
+app.post(
+  "/signup",
+  [
+    body("username").isLength({ min: 5 }),
+    body("password").isLength({ min: 7 }),
+  ],
+  validationMiddleware,
+  addNewUser
+);
 
 function rerun(req, res, next) {
   if (movieArr.length === 0) {
