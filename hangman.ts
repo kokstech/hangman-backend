@@ -18,15 +18,18 @@ async function getMovies() {
     findResult.forEach((element: Movies) =>
       movieArr.push({ title: element.title.toLowerCase() })
     );
-    console.log(movieArr);
   } catch (error) {
     console.error(error);
   }
 }
 
-async function addMovie(mv) {
+async function addMovie(req, res) {
   try {
-    movieCollection.insertOne({ title: mv });
+    if (req.body.title === undefined) {
+      return res.status(400).send("please enter valid value");
+    }
+    movieCollection.insertOne({ title: req.body.title });
+    res.status(200).send(`you have added ${req.body.title} to db`);
   } catch (error) {
     console.error(error);
   }
@@ -38,15 +41,12 @@ async function login(req, res) {
 
     if (!user) {
       res.status(400);
-      res.send("Invalid username");
-      return;
+      return res.send("Invalid username");
     }
 
     const isValid = await bcrypt.compare(req.body.password, user.password);
     if (!isValid) {
       res.status(422);
-      res.send("Invalid password");
-      return;
     } else {
       res.status(200);
       res.json({ isLogin: true, user: user.username });

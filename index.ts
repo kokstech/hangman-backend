@@ -34,17 +34,23 @@ app.get("/api", rerun, (req, res) => {
   res.json(movieArr);
 });
 
-app.post("/add", (req, res) => {
-  addMovie(req.body.title);
-  res.end(`you add movie ${req.body.title}`);
-});
+app.post("/add-movie", body("title").trim(), addMovie);
 
-app.post("/login", login);
+app.post(
+  "/login",
+  [body("username").trim(), body("password").trim().trim()],
+  login
+);
 app.post(
   "/signup",
   [
-    body("username").isLength({ min: 5 }),
-    body("password").isLength({ min: 7 }),
+    body("username").isLength({ min: 5 }).trim(),
+    body(
+      "password",
+      "minLength: 7, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1"
+    )
+      .isStrongPassword({ min: 7 })
+      .trim(),
   ],
   validationMiddleware,
   addNewUser
