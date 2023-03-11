@@ -44,10 +44,12 @@ app.post(
 app.post(
   "/signup",
   [
-    body("username").isLength({ min: 5 }).trim(),
+    body("username", "username must be at least 5 letters long")
+      .isLength({ min: 5 })
+      .trim(),
     body(
       "password",
-      "minLength: 7, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1"
+      "password is requiring: minLength: 7, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1"
     )
       .isStrongPassword({ min: 7 })
       .trim(),
