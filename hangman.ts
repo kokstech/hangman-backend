@@ -26,10 +26,12 @@ async function getMovies() {
 async function addMovie(req, res) {
   try {
     if (req.body.title === undefined) {
-      return res.status(400).send("please enter valid value");
+      return res.status(400).json({ errorMsg: "please enter valid value" });
     }
     movieCollection.insertOne({ title: req.body.title });
-    res.status(200).send(`you have added ${req.body.title} to db`);
+    res
+      .status(200)
+      .json({ successMsg: `you have added ${req.body.title} to db` });
   } catch (error) {
     console.error(error);
   }
@@ -41,15 +43,14 @@ async function login(req, res) {
 
     if (!user) {
       res.status(400);
-      return res.send("Invalid username");
+      return res.json({ errorMsg: "Invalid username" });
     }
 
     const isValid = await bcrypt.compare(req.body.password, user.password);
     if (!isValid) {
-      res.status(422);
+      res.status(422).res.json({ errorMsg: "Invalid password" });
     } else {
-      res.status(200);
-      res.json({ isLogin: true, user: user.username });
+      res.status(200).json({ isLogin: true, user: user.username });
     }
   } catch (error) {
     console.error(error);
@@ -63,12 +64,10 @@ async function addNewUser(req, res) {
     });
 
     if (checkUsername) {
-      res.status(400);
-      return res.send("username is taken");
+      return res.status(400).send({ errorMsg: "username is taken" });
     }
     if (req.body.username === null || req.body.password === null) {
-      res.status(400);
-      return res.send("you cannot leave fields empty");
+      res.status(400).res.json({ errorMsg: "you cannot leave fields empty" });
     }
 
     const salt = await bcrypt.genSalt();
@@ -77,8 +76,7 @@ async function addNewUser(req, res) {
       username: req.body.username,
       password: hashedPassword,
     });
-    res.status(200);
-    res.send("success");
+    res.status(200).json({ successMsg: "success" });
   } catch (error) {
     console.error(error);
   }
