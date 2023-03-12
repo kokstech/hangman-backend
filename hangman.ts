@@ -48,7 +48,7 @@ async function login(req, res) {
 
     const isValid = await bcrypt.compare(req.body.password, user.password);
     if (!isValid) {
-      res.status(422).json({ errorMsg: "Invalid password" });
+      res.status(400).json({ errorMsg: "Invalid password" });
     } else {
       res.status(200).json({ isLogin: true, user: user.username });
     }
@@ -76,7 +76,7 @@ async function addNewUser(req, res) {
       username: req.body.username,
       password: hashedPassword,
     });
-    res.status(200).json({ successMsg: "success" });
+    res.status(200).json({ successMsg: "success!!!" });
   } catch (error) {
     console.error(error);
   }
