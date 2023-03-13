@@ -36,23 +36,19 @@ app.get("/api", rerun, (req, res) => {
 
 app.post("/add-movie", body("title").trim(), addMovie);
 
-app.post(
-  "/login",
-  [body("username").trim(), body("password").trim().trim()],
-  login
-);
+app.post("/login", [body("username").trim(), body("password").trim()], login);
 app.post(
   "/signup",
   [
     body("username", "username must be at least 5 letters long")
-      .isLength({ min: 5 })
-      .trim(),
+      .trim()
+      .isLength({ min: 5 }),
     body(
       "password",
       "password is requiring: minLength: 7, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1"
     )
-      .isStrongPassword({ min: 7 })
-      .trim(),
+      .trim()
+      .isStrongPassword({ min: 7 }),
   ],
   validationMiddleware,
   addNewUser
